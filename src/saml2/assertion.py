@@ -13,7 +13,7 @@ from saml2.s_utils import assertion_factory
 from saml2.s_utils import factory
 from saml2.s_utils import sid, MissingValue
 from saml2.saml import NAME_FORMAT_URI
-from saml2.time_util import instant, in_a_while
+from saml2.time_util import a_while_ago, instant, in_a_while
 
 logger = logging.getLogger(__name__)
 
@@ -545,7 +545,7 @@ class Policy(object):
         :return: A saml.Condition instance
         """
         return factory(saml.Conditions,
-                       not_before=instant(),
+                       not_before=a_while_ago(minutes=1),
                        # How long might depend on who's getting it
                        not_on_or_after=self.not_on_or_after(sp_entity_id),
                        audience_restriction=[factory(
